@@ -1,0 +1,250 @@
+#include <iostream>
+using namespace std;
+
+// Returns a random 7 letter string
+string
+getRandomString ()
+{
+  char alphabet[26] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+    'h', 'i', 'j', 'k', 'l', 'm', 'n',
+    'o', 'p', 'q', 'r', 's', 't', 'u',
+    'v', 'w', 'x', 'y', 'z'
+  };
+
+  string res = "";
+  for (int i = 0; i < 7; i++)
+    res = res + alphabet[rand () % 26];
+
+  return res;
+}
+
+
+class User
+{
+
+// All the variables are declared public.
+public:
+  string name, user_id, gender, hobbies[11], friend_id[11];
+  int age, height;
+
+// Sets a random user id when a new user is created.
+  void setUserData ()
+  {
+    user_id = getRandomString ();
+  }
+
+
+};
+
+class SocialNetwork
+{
+
+public:
+  User userList[50];
+  int userCount = 0;
+  int i=0,j=0;
+
+  void addUser ()
+  {
+    User newUser;
+  
+      cout << "Enter User's name, age, height, gender" << endl;
+      cin >> newUser.name >> newUser.age >> newUser.height >> newUser.gender;
+
+      cout << "Enter User's Hobbies" << endl;
+    while (i < 11)
+      {
+	cin >> newUser.hobbies[i];
+	i++;
+      }
+
+    cout << "Enter User's Friend ids" << endl;
+    while (j < 11)
+      {
+	cin >> newUser.friend_id[j];
+	j++;
+      }
+
+    userList[userCount] = newUser;
+    userCount++;
+    cout << "User added successfully";
+  }
+
+  void deleteUser()
+  {
+    string delete_id;
+
+    cout << "Enter user id of user to be deleted" << endl;
+    cin >> delete_id;
+
+    for (i = 0; i < userCount; i++)
+      {
+	if (userList[i].user_id == delete_id)
+	  {
+	    userList[i] = userList[userCount];
+	    userList[userCount] = null;
+	    userCount--;
+	    cout << "User Deleted successfully";
+	    break;
+	  }
+      }
+
+//     if (i == userCount)
+//       {
+//      cout << "Invalid user id" << endl;
+//       }
+
+  };
+
+  void searchUserByName ()
+  {
+    User filterList[11];
+    int filterCount = 0;
+    string name;
+
+    cout << "Enter name of user to be searched" << endl;
+    cin >> name;
+
+    for (i = 0; i < userCount; i++)
+      {
+	if (userList[i].name == name)
+	  {
+	    filterList[filterCount] = userList[i];
+	    filterCount++;
+	  }
+      }
+
+
+
+    if (filterCount == 0)
+      {
+	cout << "No user found with the name provided";
+      }
+    else
+      {
+	cout << filterCount << " users found";
+	for (i = 0; i < filterCount; i++)
+	  {
+	    cout << filterList[i].user_id << "\n";
+	  }
+      }
+  };
+
+
+  void searchUserByAge ()
+  {
+    User filterList[11];
+    int filterCount = 0;
+    int age;
+
+    cout << "Enter age of user to be searched" << endl;
+    cin >> age;
+
+    for (i = 0; i < userCount; i++)
+      {
+	if (userList[i].age == age)
+	  {
+	    filterList[filterCount] = userList[i];
+	    filterCount++;
+	  }
+      }
+
+    if (filterCount == 0)
+      {
+	cout << "No user found with the age provided";
+      }
+    else
+      {
+	cout << filterCount << "users found";
+	for (i = 0; i < filterCount; i++)
+	  {
+	    cout << filterList[i].name << "\n";
+	  }
+      }
+
+  }
+
+  void searchUserByHobby ()
+  {
+    User filterList[11];
+    int filterCount = 0;
+    string hobby[11];
+
+    cout << "Enter the hobby to be searched" << endl;
+    while (i < 11)
+      {
+	cin >> hobby[i];
+	i++;
+      }
+
+    for (i = 0; i < userCount; i++)
+      {
+	if (userList[i].hobbies == hobby)
+	  {
+	    filterList[filterCount] = userList[i];
+	    filterCount++;
+	  }
+      }
+
+    if (filterCount == 0)
+      {
+	cout << "No user found with the hobbies provided";
+      }
+    else
+      {
+	cout << filterCount << "users found";
+	for (i = 0; i < filterCount; i++)
+	  {
+	    cout << filterList[i].name << "\n";
+	  }
+
+
+      };
+
+    
+  void main ()
+  {
+    string choice = "y";
+    int operation;
+    SocialNetwork network;
+
+    while (choice == "y" || choice == "Y")
+      {
+	cout <<
+	  "[1]- Add New user, [2]- Search user by name, [3]- Search user by age, [4]- Search user by hobbies, [5]- Friends of user with id, [6]- Delete user with id"
+	  << endl;
+	cout << "Please enter your choice for user operation" << endl;
+	cin >> operation;
+
+	switch (operation)
+	  {
+	  case 1:
+	    network.addUser ();
+	    break;
+	  case 2:
+	    network.searchUserByName ();
+	    break;
+	  case 3:
+	    network.searchUserByAge ();
+	    break;
+	  case 4:
+	    network.searchUserByHobby ();
+	    break;
+	  case 5:
+	    network.getFriendsOfUser ();
+	    break;
+	  case 6:
+	    network.deleteUser ();
+	    break;
+	  default:
+	    cout << "Invalid Input" << endl;
+	  }
+
+	cout << "Do you wish to continue? Enter y or Y to proceed." << endl;
+	cin >> choice;
+
+      }
+
+  };
+}
+
